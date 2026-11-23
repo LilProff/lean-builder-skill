@@ -1,0 +1,5 @@
+{
+  "id": "security-headers-vercel",
+  "description": "Security headers for Vercel (vercel.json).",
+  "files": [{ "src": "vercel.json", "dest": "vercel.json", "mode": "copy" }]
+}

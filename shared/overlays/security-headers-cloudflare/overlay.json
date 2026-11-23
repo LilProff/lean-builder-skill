@@ -1,0 +1,5 @@
+{
+  "id": "security-headers-cloudflare",
+  "description": "Security headers for Cloudflare Pages and Workers static assets (public/_headers).",
+  "files": [{ "src": "public/_headers", "dest": "public/_headers", "mode": "copy" }]
+}

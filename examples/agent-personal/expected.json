@@ -1,0 +1,167 @@
+{
+  "row_id": "agent-personal",
+  "type": "agent",
+  "context": "personal",
+  "commercial": false,
+  "accounts_owner": "builder",
+  "components": {
+    "glue": {
+      "provider": "n8n-selfhosted",
+      "name": "n8n (self-hosted)",
+      "account": "n8n-selfhosted",
+      "limits": [
+        {
+          "metric": "cost",
+          "value": "free",
+          "period": "self-hosted"
+        }
+      ],
+      "source_url": "https://github.com/n8n-io/n8n/blob/master/LICENSE.md",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "n8n on your own machine wires the steps together for free."
+    },
+    "webhooks": {
+      "provider": "cloudflare-workers",
+      "name": "Cloudflare Workers",
+      "account": "cloudflare",
+      "limits": [
+        {
+          "metric": "requests_per_day",
+          "value": 100000,
+          "period": "per day (resets 00:00 UTC)"
+        },
+        {
+          "metric": "cpu_ms",
+          "value": 10,
+          "unit": "ms",
+          "period": "per invocation"
+        }
+      ],
+      "source_url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "A tiny Worker receives bot messages within the free daily allowance."
+    },
+    "router": {
+      "provider": "hono",
+      "name": "Hono",
+      "account": null,
+      "limits": [],
+      "source_url": "https://hono.dev/docs/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Hono is a small router that runs well on Workers."
+    },
+    "ai": {
+      "provider": "openrouter",
+      "name": "OpenRouter",
+      "account": "openrouter",
+      "limits": [
+        {
+          "metric": "free_requests_per_minute",
+          "value": 20,
+          "period": "per minute"
+        },
+        {
+          "metric": "free_requests_per_day",
+          "value": 50,
+          "period": "per day (under 10 credits bought)"
+        },
+        {
+          "metric": "free_requests_per_day_with_credits",
+          "value": 1000,
+          "period": "per day (10+ credits bought)"
+        }
+      ],
+      "source_url": "https://openrouter.ai/docs/api-reference/limits",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "OpenRouter free models first, with a paid model as fallback."
+    },
+    "data": {
+      "provider": "cloudflare-d1",
+      "name": "Cloudflare D1",
+      "account": "cloudflare",
+      "limits": [
+        {
+          "metric": "rows_read_per_day",
+          "value": 5000000,
+          "period": "per day"
+        },
+        {
+          "metric": "rows_written_per_day",
+          "value": 100000,
+          "period": "per day"
+        },
+        {
+          "metric": "storage_gb",
+          "value": 5,
+          "unit": "GB",
+          "period": "total"
+        },
+        {
+          "metric": "databases",
+          "value": 10,
+          "period": "per account"
+        }
+      ],
+      "source_url": "https://developers.cloudflare.com/d1/platform/pricing/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "D1 keeps conversation memory free up to 5 GB."
+    },
+    "messaging": {
+      "provider": "telegram-bot",
+      "name": "Telegram Bot",
+      "account": "telegram",
+      "limits": [
+        {
+          "metric": "messages_per_second_per_chat",
+          "value": 1,
+          "period": "per chat"
+        },
+        {
+          "metric": "group_messages_per_minute",
+          "value": 20,
+          "period": "per group"
+        },
+        {
+          "metric": "bulk_messages_per_second",
+          "value": 30,
+          "period": "across chats"
+        }
+      ],
+      "source_url": "https://core.telegram.org/bots/faq",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Telegram bots are free to run, which suits personal agents."
+    }
+  },
+  "overlays": [
+    "claude-md-lean",
+    "status-md",
+    "env-example",
+    "gitignore-secrets",
+    "telegram-webhook-worker",
+    "openrouter-client",
+    "n8n-skeletons"
+  ],
+  "upgrade_triggers": [
+    "cloudflare-workers:requests_per_day>80000",
+    "openrouter:free_requests_per_day>40"
+  ],
+  "notes": []
+}

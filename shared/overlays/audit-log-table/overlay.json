@@ -1,0 +1,5 @@
+{
+  "id": "audit-log-table",
+  "description": "Append-only audit_log table with row level security (Supabase / Postgres).",
+  "files": [{ "src": "db/audit_log.sql", "dest": "db/audit_log.sql", "mode": "copy" }]
+}

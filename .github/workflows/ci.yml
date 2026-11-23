@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python tests
+        run: |
+          pip install -r requirements-dev.txt
+          python -m pytest -q
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Overlay tests
+        run: node --test "tests/overlays/*.test.ts"
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # API hosts and pages that refuse automated requests are excluded: they answer 401/403/404 to a
+          # link checker even when the link is correct. docs/ is not link-checked. Mail links are skipped by default.
+          args: >-
+            --no-progress
+            --exclude "paystack\.com" --exclude "api\.paystack\.co" --exclude "api\.resend\.com"
+            --exclude "docs\.n8n\.io" --exclude "anthropic\.com" --exclude "graph\.facebook\.com"
+            --exclude "api\.telegram\.org" --exclude "openrouter\.ai"
+            README.md "skills/**/*.md"

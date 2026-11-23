@@ -1,0 +1,38 @@
+{
+  "name": "Lead capture (webhook to sheet)",
+  "nodes": [
+    {
+      "name": "New lead webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "parameters": { "httpMethod": "POST", "path": "new-lead" }
+    },
+    {
+      "name": "Clean fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [220, 0],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "name": "name", "type": "string", "value": "={{ $json.body.name }}" },
+            { "name": "phone", "type": "string", "value": "={{ $json.body.phone }}" },
+            { "name": "source", "type": "string", "value": "={{ $json.body.source || 'website' }}" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Append to leads sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [440, 0],
+      "parameters": { "operation": "append", "documentId": "PASTE_SHEET_ID", "sheetName": "Leads" }
+    }
+  ],
+  "connections": {
+    "New lead webhook": { "main": [[{ "node": "Clean fields", "type": "main", "index": 0 }]] },
+    "Clean fields": { "main": [[{ "node": "Append to leads sheet", "type": "main", "index": 0 }]] }
+  }
+}

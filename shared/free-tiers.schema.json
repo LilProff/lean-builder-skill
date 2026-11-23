@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "lean-builder provider catalogue",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "required": ["name", "account", "plan", "limits", "commercial_use", "idle_behaviour", "source_url", "checked_on"],
+    "additionalProperties": false,
+    "properties": {
+      "name": { "type": "string", "minLength": 1 },
+      "account": { "type": ["string", "null"] },
+      "plan": { "type": "string" },
+      "limits": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["metric", "value", "period"],
+          "additionalProperties": false,
+          "properties": {
+            "metric": { "type": "string" },
+            "value": { "type": ["number", "boolean", "string"] },
+            "unit": { "type": "string" },
+            "period": { "type": "string" }
+          }
+        }
+      },
+      "commercial_use": { "enum": [true, false, "conditional", null] },
+      "idle_behaviour": { "type": ["string", "null"] },
+      "source_url": { "type": "string", "pattern": "^https://" },
+      "checked_on": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+      "notes": { "type": "string" }
+    }
+  }
+}

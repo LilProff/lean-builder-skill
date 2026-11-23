@@ -1,0 +1,5 @@
+{
+  "id": "env-example",
+  "description": ".env.example listing every env var name the project needs, never the values.",
+  "files": [{ "src": ".env.example", "dest": ".env.example", "mode": "copy" }]
+}

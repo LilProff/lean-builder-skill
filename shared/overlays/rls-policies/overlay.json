@@ -1,0 +1,5 @@
+{
+  "id": "rls-policies",
+  "description": "Row level security template: rows owned by an organisation, visible only to its members.",
+  "files": [{ "src": "db/rls_template.sql", "dest": "db/rls_template.sql", "mode": "copy" }]
+}

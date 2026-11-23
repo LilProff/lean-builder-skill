@@ -1,0 +1,240 @@
+{
+  "row_id": "saas-startup",
+  "type": "saas",
+  "context": "startup",
+  "commercial": true,
+  "accounts_owner": "builder",
+  "components": {
+    "app": {
+      "provider": "nextjs",
+      "name": "Next.js",
+      "account": null,
+      "limits": [],
+      "source_url": "https://nextjs.org/docs",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Next.js scales from first user to a real team without a rewrite."
+    },
+    "host": {
+      "provider": "cloudflare-workers",
+      "name": "Cloudflare Workers",
+      "account": "cloudflare",
+      "limits": [
+        {
+          "metric": "requests_per_day",
+          "value": 100000,
+          "period": "per day (resets 00:00 UTC)"
+        },
+        {
+          "metric": "cpu_ms",
+          "value": 10,
+          "unit": "ms",
+          "period": "per invocation"
+        }
+      ],
+      "source_url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Cloudflare Workers is free to start and allows business use."
+    },
+    "data": {
+      "provider": "supabase",
+      "name": "Supabase",
+      "account": "supabase",
+      "limits": [
+        {
+          "metric": "db_size_mb",
+          "value": 500,
+          "unit": "MB",
+          "period": "per project"
+        },
+        {
+          "metric": "mau",
+          "value": 50000,
+          "period": "per month"
+        },
+        {
+          "metric": "file_storage_gb",
+          "value": 1,
+          "unit": "GB",
+          "period": "total"
+        },
+        {
+          "metric": "egress_gb",
+          "value": 5,
+          "unit": "GB",
+          "period": "per month"
+        },
+        {
+          "metric": "active_projects",
+          "value": 2,
+          "period": "per account"
+        }
+      ],
+      "source_url": "https://supabase.com/pricing",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Supabase gives database, login and storage in one place, ready for a paid plan later."
+    },
+    "auth": {
+      "provider": "supabase",
+      "name": "Supabase",
+      "account": "supabase",
+      "limits": [
+        {
+          "metric": "db_size_mb",
+          "value": 500,
+          "unit": "MB",
+          "period": "per project"
+        },
+        {
+          "metric": "mau",
+          "value": 50000,
+          "period": "per month"
+        },
+        {
+          "metric": "file_storage_gb",
+          "value": 1,
+          "unit": "GB",
+          "period": "total"
+        },
+        {
+          "metric": "egress_gb",
+          "value": 5,
+          "unit": "GB",
+          "period": "per month"
+        },
+        {
+          "metric": "active_projects",
+          "value": 2,
+          "period": "per account"
+        }
+      ],
+      "source_url": "https://supabase.com/pricing",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Supabase Auth is included with the database."
+    },
+    "payments": {
+      "provider": "paystack",
+      "name": "Paystack",
+      "account": "paystack",
+      "limits": [],
+      "source_url": "https://paystack.com/ng/pricing",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Paystack takes naira cards, transfers and USSD."
+    },
+    "email": {
+      "provider": "resend",
+      "name": "Resend",
+      "account": "resend",
+      "limits": [
+        {
+          "metric": "emails_per_month",
+          "value": 3000,
+          "period": "per month"
+        },
+        {
+          "metric": "emails_per_day",
+          "value": 100,
+          "period": "per day"
+        },
+        {
+          "metric": "domains",
+          "value": 3,
+          "period": "per account"
+        }
+      ],
+      "source_url": "https://resend.com/pricing",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Resend sends transactional email free up to 100 a day."
+    },
+    "jobs": {
+      "provider": "cloudflare-cron",
+      "name": "Cloudflare Cron Triggers",
+      "account": "cloudflare",
+      "limits": [
+        {
+          "metric": "cron_triggers",
+          "value": 5,
+          "period": "per account"
+        },
+        {
+          "metric": "cpu_ms",
+          "value": 10,
+          "unit": "ms",
+          "period": "per trigger run"
+        }
+      ],
+      "source_url": "https://developers.cloudflare.com/workers/configuration/cron-triggers/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Cloudflare Cron runs scheduled jobs free, up to 5 triggers."
+    },
+    "files": {
+      "provider": "cloudflare-r2",
+      "name": "Cloudflare R2",
+      "account": "cloudflare",
+      "limits": [
+        {
+          "metric": "storage_gb_month",
+          "value": 10,
+          "unit": "GB-month",
+          "period": "per month (Standard storage)"
+        },
+        {
+          "metric": "class_a_ops",
+          "value": 1000000,
+          "period": "per month"
+        },
+        {
+          "metric": "class_b_ops",
+          "value": 10000000,
+          "period": "per month"
+        },
+        {
+          "metric": "egress_cost",
+          "value": "free",
+          "period": "always"
+        }
+      ],
+      "source_url": "https://developers.cloudflare.com/r2/pricing/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "R2 stores uploads free up to 10 GB with no download fees."
+    }
+  },
+  "overlays": [
+    "claude-md-lean",
+    "status-md",
+    "env-example",
+    "gitignore-secrets",
+    "security-headers-cloudflare",
+    "paystack-webhook",
+    "rls-policies"
+  ],
+  "upgrade_triggers": [
+    "supabase:idle_pause",
+    "supabase:db_size_mb>400",
+    "cloudflare-workers:requests_per_day>80000"
+  ],
+  "notes": []
+}

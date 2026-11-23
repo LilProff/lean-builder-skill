@@ -1,0 +1,207 @@
+{
+  "row_id": "internal-client",
+  "type": "internal",
+  "context": "client",
+  "commercial": true,
+  "accounts_owner": "client",
+  "components": {
+    "app": {
+      "provider": "nextjs",
+      "name": "Next.js",
+      "account": null,
+      "limits": [],
+      "source_url": "https://nextjs.org/docs",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Next.js is widely known, so the client's next developer can pick it up."
+    },
+    "host": {
+      "provider": "cloudflare-workers",
+      "name": "Cloudflare Workers",
+      "account": "cloudflare",
+      "limits": [
+        {
+          "metric": "requests_per_day",
+          "value": 100000,
+          "period": "per day (resets 00:00 UTC)"
+        },
+        {
+          "metric": "cpu_ms",
+          "value": 10,
+          "unit": "ms",
+          "period": "per invocation"
+        }
+      ],
+      "source_url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Cloudflare Workers on the client's account is free to start and allows business use."
+    },
+    "data": {
+      "provider": "supabase",
+      "name": "Supabase",
+      "account": "supabase",
+      "limits": [
+        {
+          "metric": "db_size_mb",
+          "value": 500,
+          "unit": "MB",
+          "period": "per project"
+        },
+        {
+          "metric": "mau",
+          "value": 50000,
+          "period": "per month"
+        },
+        {
+          "metric": "file_storage_gb",
+          "value": 1,
+          "unit": "GB",
+          "period": "total"
+        },
+        {
+          "metric": "egress_gb",
+          "value": 5,
+          "unit": "GB",
+          "period": "per month"
+        },
+        {
+          "metric": "active_projects",
+          "value": 2,
+          "period": "per account"
+        }
+      ],
+      "source_url": "https://supabase.com/pricing",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Supabase gives roles, row-level security and an admin view the client owns; use Pro once live."
+    },
+    "auth": {
+      "provider": "supabase",
+      "name": "Supabase",
+      "account": "supabase",
+      "limits": [
+        {
+          "metric": "db_size_mb",
+          "value": 500,
+          "unit": "MB",
+          "period": "per project"
+        },
+        {
+          "metric": "mau",
+          "value": 50000,
+          "period": "per month"
+        },
+        {
+          "metric": "file_storage_gb",
+          "value": 1,
+          "unit": "GB",
+          "period": "total"
+        },
+        {
+          "metric": "egress_gb",
+          "value": 5,
+          "unit": "GB",
+          "period": "per month"
+        },
+        {
+          "metric": "active_projects",
+          "value": 2,
+          "period": "per account"
+        }
+      ],
+      "source_url": "https://supabase.com/pricing",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Supabase Auth ties every user to the client's organisation and roles."
+    },
+    "backend": {
+      "provider": "gcp-cloud-run",
+      "name": "Google Cloud Run",
+      "account": "gcp",
+      "limits": [
+        {
+          "metric": "requests",
+          "value": 2000000,
+          "period": "per month"
+        },
+        {
+          "metric": "vcpu_seconds",
+          "value": 180000,
+          "period": "per month"
+        },
+        {
+          "metric": "memory_gb_seconds",
+          "value": 360000,
+          "period": "per month"
+        },
+        {
+          "metric": "egress_gb_north_america",
+          "value": 1,
+          "unit": "GB",
+          "period": "per month"
+        }
+      ],
+      "source_url": "https://docs.cloud.google.com/free/docs/free-cloud-features",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Cloud Run scales to zero and has a monthly free allowance for heavy jobs."
+    },
+    "api": {
+      "provider": "fastapi",
+      "name": "FastAPI",
+      "account": null,
+      "limits": [],
+      "source_url": "https://fastapi.tiangolo.com/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "FastAPI suits data-heavy back ends, the same pattern as a working logistics ERP."
+    },
+    "sync": {
+      "provider": "n8n-selfhosted",
+      "name": "n8n (self-hosted)",
+      "account": "n8n-selfhosted",
+      "limits": [
+        {
+          "metric": "cost",
+          "value": "free",
+          "period": "self-hosted"
+        }
+      ],
+      "source_url": "https://github.com/n8n-io/n8n/blob/master/LICENSE.md",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "n8n self-hosted on the client's server syncs spreadsheets; the licence allows their own internal use."
+    }
+  },
+  "overlays": [
+    "claude-md-lean",
+    "status-md",
+    "env-example",
+    "gitignore-secrets",
+    "security-headers-cloudflare",
+    "rls-policies",
+    "audit-log-table",
+    "cloud-run-fastapi",
+    "n8n-skeletons"
+  ],
+  "upgrade_triggers": [
+    "supabase:idle_pause",
+    "supabase:db_size_mb>400"
+  ],
+  "notes": []
+}

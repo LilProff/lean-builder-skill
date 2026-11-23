@@ -1,0 +1,22 @@
+{
+  "name": "lean-builder-skill",
+  "description": "Eleven free Claude skills that build a website, SaaS, internal tool or AI agent at the lowest cost: pick the stack, write the plan and cost sheet, scaffold, deploy and hand off. Paystack-ready. Free, MIT.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Samuel Sholarin",
+    "url": "https://lilproff.github.io/sasdev/"
+  },
+  "homepage": "https://github.com/LilProff/lean-builder-skill",
+  "repository": "https://github.com/LilProff/lean-builder-skill",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "claude-skills",
+    "free-tier",
+    "low-cost",
+    "paystack",
+    "cloudflare",
+    "nextjs",
+    "ai-agents"
+  ]
+}

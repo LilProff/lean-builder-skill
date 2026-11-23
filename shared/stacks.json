@@ -1,0 +1,200 @@
+{
+  "version": 1,
+  "rows": [
+    {
+      "id": "website-personal", "type": "website", "context": "personal", "commercial": "any", "accounts_owner": "builder",
+      "stack": { "app": "astro", "host": "cloudflare-pages", "forms": "cloudflare-workers", "email": "resend" },
+      "fallbacks": { "host": ["github-pages"] },
+      "why": {
+        "app": "Astro ships plain HTML by default, so pages are fast and cost nothing to serve.",
+        "host": "Cloudflare Pages hosts static sites free with 500 builds a month.",
+        "forms": "A small Worker handles the contact form inside the free daily request allowance.",
+        "email": "Resend sends form messages free up to 100 a day."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "contact-form-worker"],
+      "upgrade_triggers": ["resend:emails_per_month>2400", "resend:emails_per_day>80"]
+    },
+    {
+      "id": "website-client", "type": "website", "context": "client", "commercial": "any", "accounts_owner": "client",
+      "stack": { "app": "astro", "host": "cloudflare-pages", "forms": "cloudflare-workers", "email": "resend", "cms": "keystatic" },
+      "fallbacks": {},
+      "why": {
+        "app": "Astro ships plain HTML by default, so the client's pages are fast and cheap to run.",
+        "host": "Cloudflare Pages on the client's own account keeps hosting free and in their name.",
+        "forms": "A small Worker sends enquiries to the client's inbox within the free allowance.",
+        "email": "Resend on the client's account sends form messages free up to 100 a day.",
+        "cms": "Keystatic lets the client edit text in the browser with no paid CMS."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "contact-form-worker"],
+      "upgrade_triggers": ["resend:emails_per_month>2400", "resend:emails_per_day>80"]
+    },
+    {
+      "id": "website-startup", "type": "website", "context": "startup", "commercial": "any", "accounts_owner": "builder",
+      "stack": { "app": "astro", "host": "cloudflare-pages", "forms": "cloudflare-workers", "email": "resend" },
+      "fallbacks": {},
+      "why": {
+        "app": "Astro keeps the marketing site fast; switch to Next.js only if it behaves like an app.",
+        "host": "Cloudflare Pages hosts the site free; GitHub Pages is not allowed for business sites.",
+        "forms": "A small Worker handles sign-ups and enquiries inside the free allowance.",
+        "email": "Resend sends form messages free up to 100 a day."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "contact-form-worker"],
+      "upgrade_triggers": ["resend:emails_per_month>2400", "resend:emails_per_day>80"]
+    },
+    {
+      "id": "saas-personal-free", "type": "saas", "context": "personal", "commercial": false, "accounts_owner": "builder",
+      "stack": { "app": "nextjs", "host": "vercel-hobby", "data": "neon", "auth": "better-auth", "payments": "paystack", "email": "resend", "jobs": "cloudflare-cron", "files": "cloudflare-r2" },
+      "fallbacks": { "host": ["cloudflare-workers"], "data": ["supabase"] },
+      "why": {
+        "app": "Next.js covers pages, API routes and server code in one project.",
+        "host": "Vercel Hobby is free while the product earns nothing; move off it before charging.",
+        "data": "Neon's free Postgres scales to zero and is never paused for inactivity.",
+        "auth": "Better Auth is open source and stores users in your own database.",
+        "payments": "Paystack takes naira cards, transfers and USSD when you start charging.",
+        "email": "Resend sends sign-up and receipt emails free up to 100 a day.",
+        "jobs": "Cloudflare Cron runs scheduled jobs free, up to 5 triggers.",
+        "files": "R2 stores uploads free up to 10 GB with no download fees."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "paystack-webhook"],
+      "upgrade_triggers": ["vercel-hobby:commercial_use", "neon:storage_gb>0.8"]
+    },
+    {
+      "id": "saas-personal-commercial", "type": "saas", "context": "personal", "commercial": true, "accounts_owner": "builder",
+      "stack": { "app": "nextjs", "host": "cloudflare-workers", "data": "neon", "auth": "better-auth", "payments": "paystack", "email": "resend", "jobs": "cloudflare-cron", "files": "cloudflare-r2" },
+      "fallbacks": { "data": ["supabase"] },
+      "why": {
+        "app": "Next.js covers pages, API routes and server code in one project.",
+        "host": "Cloudflare Workers runs the app free up to 100,000 requests a day once it earns money.",
+        "data": "Neon's free Postgres scales to zero and is never paused for inactivity.",
+        "auth": "Better Auth is open source and stores users in your own database.",
+        "payments": "Paystack takes naira cards, transfers and USSD.",
+        "email": "Resend sends sign-up and receipt emails free up to 100 a day.",
+        "jobs": "Cloudflare Cron runs scheduled jobs free, up to 5 triggers.",
+        "files": "R2 stores uploads free up to 10 GB with no download fees."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "paystack-webhook"],
+      "upgrade_triggers": ["neon:storage_gb>0.8", "cloudflare-workers:requests_per_day>80000"]
+    },
+    {
+      "id": "saas-client", "type": "saas", "context": "client", "commercial": "any", "accounts_owner": "client",
+      "stack": { "app": "nextjs", "host": "cloudflare-workers", "data": "supabase", "auth": "supabase", "payments": "paystack", "email": "resend", "jobs": "cloudflare-cron", "files": "supabase" },
+      "fallbacks": { "host": ["vercel-pro"] },
+      "why": {
+        "app": "Next.js is widely known, so another developer can maintain it after handover.",
+        "host": "Cloudflare Workers on the client's account is free to start and allows business use.",
+        "data": "Supabase gives the client a database, login and storage in one dashboard they own.",
+        "auth": "Supabase Auth is included with the database, so there is no separate login service.",
+        "payments": "Paystack on the client's own account pays out straight to the client.",
+        "email": "Resend on the client's account sends transactional email free up to 100 a day.",
+        "jobs": "Cloudflare Cron runs scheduled jobs free, up to 5 triggers.",
+        "files": "Supabase Storage keeps files beside the data with the same access rules."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "paystack-webhook", "rls-policies"],
+      "upgrade_triggers": ["supabase:idle_pause", "supabase:db_size_mb>400"]
+    },
+    {
+      "id": "saas-startup", "type": "saas", "context": "startup", "commercial": "any", "accounts_owner": "builder",
+      "stack": { "app": "nextjs", "host": "cloudflare-workers", "data": "supabase", "auth": "supabase", "payments": "paystack", "email": "resend", "jobs": "cloudflare-cron", "files": "cloudflare-r2" },
+      "fallbacks": { "host": ["render"] },
+      "why": {
+        "app": "Next.js scales from first user to a real team without a rewrite.",
+        "host": "Cloudflare Workers is free to start and allows business use.",
+        "data": "Supabase gives database, login and storage in one place, ready for a paid plan later.",
+        "auth": "Supabase Auth is included with the database.",
+        "payments": "Paystack takes naira cards, transfers and USSD.",
+        "email": "Resend sends transactional email free up to 100 a day.",
+        "jobs": "Cloudflare Cron runs scheduled jobs free, up to 5 triggers.",
+        "files": "R2 stores uploads free up to 10 GB with no download fees."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "paystack-webhook", "rls-policies"],
+      "upgrade_triggers": ["supabase:idle_pause", "supabase:db_size_mb>400", "cloudflare-workers:requests_per_day>80000"]
+    },
+    {
+      "id": "internal-personal", "type": "internal", "context": "personal", "commercial": "any", "accounts_owner": "builder",
+      "stack": { "app": "nextjs", "host": "cloudflare-workers", "data": "neon", "auth": "better-auth" },
+      "fallbacks": { "data": ["supabase"] },
+      "why": {
+        "app": "Next.js covers screens and server code for a small internal tool.",
+        "host": "Cloudflare Workers runs it free within the daily request allowance.",
+        "data": "Neon's free Postgres is never paused, so a rarely used tool still works.",
+        "auth": "Better Auth is open source and keeps users in your own database."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers"],
+      "upgrade_triggers": ["neon:storage_gb>0.8"]
+    },
+    {
+      "id": "internal-client", "type": "internal", "context": "client", "commercial": "any", "accounts_owner": "client",
+      "stack": { "app": "nextjs", "host": "cloudflare-workers", "data": "supabase", "auth": "supabase", "backend": "gcp-cloud-run", "api": "fastapi", "sync": "n8n-selfhosted" },
+      "fallbacks": { "host": ["vercel-pro"] },
+      "why": {
+        "app": "Next.js is widely known, so the client's next developer can pick it up.",
+        "host": "Cloudflare Workers on the client's account is free to start and allows business use.",
+        "data": "Supabase gives roles, row-level security and an admin view the client owns; use Pro once live.",
+        "auth": "Supabase Auth ties every user to the client's organisation and roles.",
+        "backend": "Cloud Run scales to zero and has a monthly free allowance for heavy jobs.",
+        "api": "FastAPI suits data-heavy back ends, the same pattern as a working logistics ERP.",
+        "sync": "n8n self-hosted on the client's server syncs spreadsheets; the licence allows their own internal use."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "rls-policies", "audit-log-table", "cloud-run-fastapi", "n8n-skeletons"],
+      "upgrade_triggers": ["supabase:idle_pause", "supabase:db_size_mb>400"]
+    },
+    {
+      "id": "internal-startup", "type": "internal", "context": "startup", "commercial": "any", "accounts_owner": "builder",
+      "stack": { "app": "nextjs", "host": "cloudflare-workers", "data": "supabase", "auth": "supabase" },
+      "fallbacks": { "data": ["neon"] },
+      "why": {
+        "app": "Next.js covers screens and server code for the team's tools.",
+        "host": "Cloudflare Workers is free to start and allows business use.",
+        "data": "Supabase gives roles and row-level security out of the box.",
+        "auth": "Supabase Auth is included with the database."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "security-headers", "rls-policies", "audit-log-table"],
+      "upgrade_triggers": ["supabase:idle_pause"]
+    },
+    {
+      "id": "agent-personal", "type": "agent", "context": "personal", "commercial": "any", "accounts_owner": "builder",
+      "stack": { "glue": "n8n-selfhosted", "webhooks": "cloudflare-workers", "router": "hono", "ai": "openrouter", "data": "cloudflare-d1", "messaging": "telegram-bot" },
+      "fallbacks": { "data": ["neon"], "glue": ["render"] },
+      "why": {
+        "glue": "n8n on your own machine wires the steps together for free.",
+        "webhooks": "A tiny Worker receives bot messages within the free daily allowance.",
+        "router": "Hono is a small router that runs well on Workers.",
+        "ai": "OpenRouter free models first, with a paid model as fallback.",
+        "data": "D1 keeps conversation memory free up to 5 GB.",
+        "messaging": "Telegram bots are free to run, which suits personal agents."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "telegram-webhook-worker", "openrouter-client", "n8n-skeletons"],
+      "upgrade_triggers": ["cloudflare-workers:requests_per_day>80000", "openrouter:free_requests_per_day>40"]
+    },
+    {
+      "id": "agent-client", "type": "agent", "context": "client", "commercial": "any", "accounts_owner": "client",
+      "stack": { "glue": "n8n-selfhosted", "webhooks": "cloudflare-workers", "router": "hono", "ai": "openrouter", "data": "neon", "messaging": "whatsapp-cloud-api" },
+      "fallbacks": {},
+      "why": {
+        "glue": "n8n on the client's own server; the licence allows their internal business use.",
+        "webhooks": "A tiny Worker on the client's account receives WhatsApp messages.",
+        "router": "Hono is a small router that runs well on Workers.",
+        "ai": "OpenRouter with the client's own key and a paid fallback model.",
+        "data": "Neon Postgres on the client's account keeps customer history and is never paused.",
+        "messaging": "WhatsApp is where the client's customers already are; it uses the client's own Meta Business number."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "whatsapp-webhook-worker", "openrouter-client", "n8n-skeletons"],
+      "upgrade_triggers": ["n8n-selfhosted:client_hosting_licence"]
+    },
+    {
+      "id": "agent-startup", "type": "agent", "context": "startup", "commercial": "any", "accounts_owner": "builder",
+      "stack": { "glue": "n8n-selfhosted", "webhooks": "cloudflare-workers", "router": "hono", "ai": "openrouter", "data": "neon", "messaging": "whatsapp-cloud-api" },
+      "fallbacks": { "messaging": ["telegram-bot"] },
+      "why": {
+        "glue": "n8n self-hosted for your own product's internal workflows.",
+        "webhooks": "A tiny Worker receives messages within the free daily allowance.",
+        "router": "Hono is a small router that runs well on Workers.",
+        "ai": "OpenRouter free models first, with a paid model as fallback.",
+        "data": "Neon Postgres is never paused and scales with the product.",
+        "messaging": "WhatsApp reaches customers where they are; 1,000 service messages a month are free."
+      },
+      "overlays": ["claude-md-lean", "status-md", "env-example", "gitignore-secrets", "whatsapp-webhook-worker", "openrouter-client", "n8n-skeletons"],
+      "upgrade_triggers": ["cloudflare-workers:requests_per_day>80000"]
+    }
+  ]
+}

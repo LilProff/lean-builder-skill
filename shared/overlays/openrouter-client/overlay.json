@@ -1,0 +1,5 @@
+{
+  "id": "openrouter-client",
+  "description": "OpenRouter client that tries free models first, falls back to a paid model and caches answers.",
+  "files": [{ "src": "src/openrouter.ts", "dest": "src/openrouter.ts", "mode": "copy" }]
+}

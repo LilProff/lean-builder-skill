@@ -1,0 +1,8 @@
+{
+  "id": "telegram-webhook-worker",
+  "description": "Cloudflare Worker (Hono) that checks the Telegram secret token and answers bot messages.",
+  "files": [
+    { "src": "src/telegram.ts", "dest": "src/telegram.ts", "mode": "copy" },
+    { "src": "src/index.ts", "dest": "src/index.ts", "mode": "copy" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "cloud-run-fastapi",
+  "description": "FastAPI starter for Google Cloud Run with a health route and a Dockerfile that reads PORT.",
+  "files": [
+    { "src": "api/main.py", "dest": "api/main.py", "mode": "copy" },
+    { "src": "api/requirements.txt", "dest": "api/requirements.txt", "mode": "copy" },
+    { "src": "api/Dockerfile", "dest": "api/Dockerfile", "mode": "copy" }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "id": "gitignore-secrets",
+  "description": "Adds the lines that keep env files and host caches out of git.",
+  "files": [{ "src": ".gitignore", "dest": ".gitignore", "mode": "append" }]
+}

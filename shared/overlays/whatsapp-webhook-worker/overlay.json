@@ -1,0 +1,8 @@
+{
+  "id": "whatsapp-webhook-worker",
+  "description": "Cloudflare Worker (Hono) that verifies and answers WhatsApp Cloud API webhooks.",
+  "files": [
+    { "src": "src/whatsapp.ts", "dest": "src/whatsapp.ts", "mode": "copy" },
+    { "src": "src/index.ts", "dest": "src/index.ts", "mode": "copy" }
+  ]
+}

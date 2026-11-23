@@ -1,0 +1,5 @@
+{
+  "id": "claude-md-lean",
+  "description": "A short CLAUDE.md (under 60 lines) that keeps Claude Code usage low.",
+  "files": [{ "src": "CLAUDE.md", "dest": "CLAUDE.md", "mode": "copy" }]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "lean-builder-skill",
+  "description": "The lean builder skill pack for Claude Code",
+  "owner": {
+    "name": "Samuel Sholarin",
+    "url": "https://lilproff.github.io/sasdev/"
+  },
+  "plugins": [
+    {
+      "name": "lean-builder-skill",
+      "description": "Eleven Claude skills that pick the cheapest stack for a website, SaaS, internal tool or AI agent, write the plan and cost sheet, scaffold from official starters, deploy behind a preflight check and hand off.",
+      "source": "./",
+      "category": "development",
+      "homepage": "https://github.com/LilProff/lean-builder-skill"
+    }
+  ]
+}

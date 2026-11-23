@@ -1,0 +1,38 @@
+{
+  "name": "Sheet sync (every 15 minutes)",
+  "nodes": [
+    {
+      "name": "Every 15 minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0],
+      "parameters": { "rule": { "interval": [{ "field": "minutes", "minutesInterval": 15 }] } }
+    },
+    {
+      "name": "Read sheet rows",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [220, 0],
+      "parameters": { "operation": "read", "documentId": "PASTE_SHEET_ID", "sheetName": "Sheet1" }
+    },
+    {
+      "name": "Map columns",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 0],
+      "parameters": { "jsCode": "// Rename sheet columns to your database fields here.\nreturn items.map(i => ({ json: i.json }));" }
+    },
+    {
+      "name": "Send to app API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [660, 0],
+      "parameters": { "method": "POST", "url": "https://YOUR-APP/api/sync", "sendBody": true, "specifyBody": "json", "jsonBody": "={{ JSON.stringify($json) }}" }
+    }
+  ],
+  "connections": {
+    "Every 15 minutes": { "main": [[{ "node": "Read sheet rows", "type": "main", "index": 0 }]] },
+    "Read sheet rows": { "main": [[{ "node": "Map columns", "type": "main", "index": 0 }]] },
+    "Map columns": { "main": [[{ "node": "Send to app API", "type": "main", "index": 0 }]] }
+  }
+}

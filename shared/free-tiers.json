@@ -1,0 +1,225 @@
+{
+  "astro": {
+    "name": "Astro", "account": null, "plan": "open source", "limits": [],
+    "commercial_use": true, "idle_behaviour": null,
+    "source_url": "https://docs.astro.build/", "checked_on": "2026-11-23"
+  },
+  "nextjs": {
+    "name": "Next.js", "account": null, "plan": "open source", "limits": [],
+    "commercial_use": true, "idle_behaviour": null,
+    "source_url": "https://nextjs.org/docs", "checked_on": "2026-11-23"
+  },
+  "hono": {
+    "name": "Hono", "account": null, "plan": "open source", "limits": [],
+    "commercial_use": true, "idle_behaviour": null,
+    "source_url": "https://hono.dev/docs/", "checked_on": "2026-11-23"
+  },
+  "fastapi": {
+    "name": "FastAPI", "account": null, "plan": "open source", "limits": [],
+    "commercial_use": true, "idle_behaviour": null,
+    "source_url": "https://fastapi.tiangolo.com/", "checked_on": "2026-11-23"
+  },
+  "better-auth": {
+    "name": "Better Auth", "account": null, "plan": "open source", "limits": [],
+    "commercial_use": true, "idle_behaviour": null,
+    "source_url": "https://www.better-auth.com/docs", "checked_on": "2026-11-23"
+  },
+  "keystatic": {
+    "name": "Keystatic", "account": null, "plan": "open source", "limits": [],
+    "commercial_use": true, "idle_behaviour": null,
+    "source_url": "https://keystatic.com/docs", "checked_on": "2026-11-23"
+  },
+  "cloudflare-pages": {
+    "name": "Cloudflare Pages", "account": "cloudflare", "plan": "Free",
+    "limits": [
+      { "metric": "builds", "value": 500, "period": "per month" },
+      { "metric": "files_per_site", "value": 20000, "period": "per site" },
+      { "metric": "max_file_size_mib", "value": 25, "unit": "MiB", "period": "per asset" },
+      { "metric": "custom_domains", "value": 100, "period": "per project" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://developers.cloudflare.com/pages/platform/limits/", "checked_on": "2026-11-23",
+    "notes": "Commercial use is not restricted on this page; check Cloudflare's terms for your case."
+  },
+  "cloudflare-workers": {
+    "name": "Cloudflare Workers", "account": "cloudflare", "plan": "Workers Free",
+    "limits": [
+      { "metric": "requests_per_day", "value": 100000, "period": "per day (resets 00:00 UTC)" },
+      { "metric": "cpu_ms", "value": 10, "unit": "ms", "period": "per invocation" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://developers.cloudflare.com/workers/platform/pricing/", "checked_on": "2026-11-23",
+    "notes": "Workers Paid starts at 5 USD per month per account."
+  },
+  "cloudflare-d1": {
+    "name": "Cloudflare D1", "account": "cloudflare", "plan": "Workers Free",
+    "limits": [
+      { "metric": "rows_read_per_day", "value": 5000000, "period": "per day" },
+      { "metric": "rows_written_per_day", "value": 100000, "period": "per day" },
+      { "metric": "storage_gb", "value": 5, "unit": "GB", "period": "total" },
+      { "metric": "databases", "value": 10, "period": "per account" }
+    ],
+    "commercial_use": null, "idle_behaviour": "not billed for compute when no queries run",
+    "source_url": "https://developers.cloudflare.com/d1/platform/pricing/", "checked_on": "2026-11-23"
+  },
+  "cloudflare-r2": {
+    "name": "Cloudflare R2", "account": "cloudflare", "plan": "Free tier",
+    "limits": [
+      { "metric": "storage_gb_month", "value": 10, "unit": "GB-month", "period": "per month (Standard storage)" },
+      { "metric": "class_a_ops", "value": 1000000, "period": "per month" },
+      { "metric": "class_b_ops", "value": 10000000, "period": "per month" },
+      { "metric": "egress_cost", "value": "free", "period": "always" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://developers.cloudflare.com/r2/pricing/", "checked_on": "2026-11-23"
+  },
+  "cloudflare-cron": {
+    "name": "Cloudflare Cron Triggers", "account": "cloudflare", "plan": "Workers Free",
+    "limits": [
+      { "metric": "cron_triggers", "value": 5, "period": "per account" },
+      { "metric": "cpu_ms", "value": 10, "unit": "ms", "period": "per trigger run" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://developers.cloudflare.com/workers/configuration/cron-triggers/", "checked_on": "2026-11-23"
+  },
+  "github-pages": {
+    "name": "GitHub Pages", "account": "github", "plan": "Free (public repos)",
+    "limits": [
+      { "metric": "site_size_gb", "value": 1, "unit": "GB", "period": "per published site" },
+      { "metric": "bandwidth_gb", "value": 100, "unit": "GB", "period": "per month (soft limit)" },
+      { "metric": "builds", "value": 10, "period": "per hour (soft limit)" }
+    ],
+    "commercial_use": false, "idle_behaviour": null,
+    "source_url": "https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits", "checked_on": "2026-11-23",
+    "notes": "GitHub says Pages is not allowed as free hosting to run an online business, e-commerce or commercial SaaS. Personal sites only."
+  },
+  "vercel-hobby": {
+    "name": "Vercel Hobby", "account": "vercel", "plan": "Hobby",
+    "limits": [
+      { "metric": "fast_data_transfer_gb", "value": 100, "unit": "GB", "period": "per month" },
+      { "metric": "function_invocations", "value": 1000000, "period": "per month" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://vercel.com/pricing", "checked_on": "2026-11-23",
+    "notes": "The pages read did not state the commercial-use rule. The kit uses Hobby only for builds that earn nothing; confirm Vercel's current terms before using it for paid work. Hobby cannot buy extra usage."
+  },
+  "vercel-pro": {
+    "name": "Vercel Pro", "account": "vercel", "plan": "Pro",
+    "limits": [
+      { "metric": "price_usd", "value": 20, "unit": "USD", "period": "per month" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://vercel.com/pricing", "checked_on": "2026-11-23",
+    "notes": "Paid plan. Used only when a client already pays for Vercel."
+  },
+  "render": {
+    "name": "Render", "account": "render", "plan": "Free instance",
+    "limits": [
+      { "metric": "instance_hours", "value": 750, "period": "per workspace per month" },
+      { "metric": "free_postgres_days", "value": 30, "unit": "days", "period": "then expires (14-day grace)" }
+    ],
+    "commercial_use": null, "idle_behaviour": "free web services spin down after 15 minutes without traffic; about one minute to wake",
+    "source_url": "https://render.com/docs/free", "checked_on": "2026-11-23"
+  },
+  "gcp-cloud-run": {
+    "name": "Google Cloud Run", "account": "gcp", "plan": "Free tier (request-based billing)",
+    "limits": [
+      { "metric": "requests", "value": 2000000, "period": "per month" },
+      { "metric": "vcpu_seconds", "value": 180000, "period": "per month" },
+      { "metric": "memory_gb_seconds", "value": 360000, "period": "per month" },
+      { "metric": "egress_gb_north_america", "value": 1, "unit": "GB", "period": "per month" }
+    ],
+    "commercial_use": null, "idle_behaviour": "scales to zero when no requests",
+    "source_url": "https://docs.cloud.google.com/free/docs/free-cloud-features", "checked_on": "2026-11-23",
+    "notes": "Google can change the free tier with 30 days' notice. Needs a billing account."
+  },
+  "supabase": {
+    "name": "Supabase", "account": "supabase", "plan": "Free",
+    "limits": [
+      { "metric": "db_size_mb", "value": 500, "unit": "MB", "period": "per project" },
+      { "metric": "mau", "value": 50000, "period": "per month" },
+      { "metric": "file_storage_gb", "value": 1, "unit": "GB", "period": "total" },
+      { "metric": "egress_gb", "value": 5, "unit": "GB", "period": "per month" },
+      { "metric": "active_projects", "value": 2, "period": "per account" }
+    ],
+    "commercial_use": null, "idle_behaviour": "free projects are paused after 1 week of inactivity",
+    "source_url": "https://supabase.com/pricing", "checked_on": "2026-11-23",
+    "notes": "Pro starts at 25 USD per month and is not paused. A live client system should be on Pro, paid by the client."
+  },
+  "neon": {
+    "name": "Neon", "account": "neon", "plan": "Free",
+    "limits": [
+      { "metric": "storage_gb", "value": 1, "unit": "GB", "period": "per project (20 GB account total)" },
+      { "metric": "compute_cu_hours", "value": 100, "period": "per project per month" },
+      { "metric": "projects", "value": 100, "period": "per account" },
+      { "metric": "egress_gb", "value": 5, "unit": "GB", "period": "per project" }
+    ],
+    "commercial_use": null, "idle_behaviour": "scales to zero after 5 minutes idle; free projects are not paused",
+    "source_url": "https://neon.com/pricing", "checked_on": "2026-11-23"
+  },
+  "resend": {
+    "name": "Resend", "account": "resend", "plan": "Free",
+    "limits": [
+      { "metric": "emails_per_month", "value": 3000, "period": "per month" },
+      { "metric": "emails_per_day", "value": 100, "period": "per day" },
+      { "metric": "domains", "value": 3, "period": "per account" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://resend.com/pricing", "checked_on": "2026-11-23"
+  },
+  "openrouter": {
+    "name": "OpenRouter", "account": "openrouter", "plan": "Free models (:free)",
+    "limits": [
+      { "metric": "free_requests_per_minute", "value": 20, "period": "per minute" },
+      { "metric": "free_requests_per_day", "value": 50, "period": "per day (under 10 credits bought)" },
+      { "metric": "free_requests_per_day_with_credits", "value": 1000, "period": "per day (10+ credits bought)" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://openrouter.ai/docs/api-reference/limits", "checked_on": "2026-11-23",
+    "notes": "Paid model variants have no platform-level request cap. Check each model's own terms."
+  },
+  "paystack": {
+    "name": "Paystack", "account": "paystack", "plan": "Pay as you go",
+    "limits": [],
+    "commercial_use": true, "idle_behaviour": null,
+    "source_url": "https://paystack.com/ng/pricing", "checked_on": "2026-11-23",
+    "notes": "Fees not verified: the pricing page blocks automated reads. Open the page and copy the current local fee, cap and international fee into cost.md by hand."
+  },
+  "grey": {
+    "name": "Grey", "account": "grey", "plan": "Personal account",
+    "limits": [],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://grey.co/", "checked_on": "2026-11-23",
+    "notes": "For receiving foreign payments into USD, GBP or EUR accounts. Not a checkout gateway. No fee figures on the page."
+  },
+  "n8n-selfhosted": {
+    "name": "n8n (self-hosted)", "account": "n8n-selfhosted", "plan": "Sustainable Use License",
+    "limits": [
+      { "metric": "cost", "value": "free", "period": "self-hosted" }
+    ],
+    "commercial_use": "conditional", "idle_behaviour": null,
+    "source_url": "https://github.com/n8n-io/n8n/blob/master/LICENSE.md", "checked_on": "2026-11-23",
+    "notes": "Licence: use only for your own internal business purposes or non-commercial or personal use. A client may self-host n8n for its own business; do not host n8n and charge others for access."
+  },
+  "whatsapp-cloud-api": {
+    "name": "WhatsApp Cloud API", "account": "meta", "plan": "Pay per message",
+    "limits": [
+      { "metric": "free_service_messages", "value": 1000, "period": "per business number per month (since 1 Oct 2026)" },
+      { "metric": "user_to_business_messages", "value": "free", "period": "always" }
+    ],
+    "commercial_use": true, "idle_behaviour": null,
+    "source_url": "https://developers.facebook.com/docs/whatsapp/pricing", "checked_on": "2026-11-23",
+    "notes": "Replies are only allowed inside the 24-hour customer service window. Template messages are charged per delivered message by category and country; see Meta's rate cards."
+  },
+  "telegram-bot": {
+    "name": "Telegram Bot", "account": "telegram", "plan": "Free",
+    "limits": [
+      { "metric": "messages_per_second_per_chat", "value": 1, "period": "per chat" },
+      { "metric": "group_messages_per_minute", "value": 20, "period": "per group" },
+      { "metric": "bulk_messages_per_second", "value": 30, "period": "across chats" }
+    ],
+    "commercial_use": null, "idle_behaviour": null,
+    "source_url": "https://core.telegram.org/bots/faq", "checked_on": "2026-11-23",
+    "notes": "Bots can message their users at no cost within these limits."
+  }
+}

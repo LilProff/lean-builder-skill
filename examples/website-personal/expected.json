@@ -1,0 +1,120 @@
+{
+  "row_id": "website-personal",
+  "type": "website",
+  "context": "personal",
+  "commercial": false,
+  "accounts_owner": "builder",
+  "components": {
+    "app": {
+      "provider": "astro",
+      "name": "Astro",
+      "account": null,
+      "limits": [],
+      "source_url": "https://docs.astro.build/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Astro ships plain HTML by default, so pages are fast and cost nothing to serve."
+    },
+    "host": {
+      "provider": "cloudflare-pages",
+      "name": "Cloudflare Pages",
+      "account": "cloudflare",
+      "limits": [
+        {
+          "metric": "builds",
+          "value": 500,
+          "period": "per month"
+        },
+        {
+          "metric": "files_per_site",
+          "value": 20000,
+          "period": "per site"
+        },
+        {
+          "metric": "max_file_size_mib",
+          "value": 25,
+          "unit": "MiB",
+          "period": "per asset"
+        },
+        {
+          "metric": "custom_domains",
+          "value": 100,
+          "period": "per project"
+        }
+      ],
+      "source_url": "https://developers.cloudflare.com/pages/platform/limits/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Cloudflare Pages hosts static sites free with 500 builds a month."
+    },
+    "forms": {
+      "provider": "cloudflare-workers",
+      "name": "Cloudflare Workers",
+      "account": "cloudflare",
+      "limits": [
+        {
+          "metric": "requests_per_day",
+          "value": 100000,
+          "period": "per day (resets 00:00 UTC)"
+        },
+        {
+          "metric": "cpu_ms",
+          "value": 10,
+          "unit": "ms",
+          "period": "per invocation"
+        }
+      ],
+      "source_url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "A small Worker handles the contact form inside the free daily request allowance."
+    },
+    "email": {
+      "provider": "resend",
+      "name": "Resend",
+      "account": "resend",
+      "limits": [
+        {
+          "metric": "emails_per_month",
+          "value": 3000,
+          "period": "per month"
+        },
+        {
+          "metric": "emails_per_day",
+          "value": 100,
+          "period": "per day"
+        },
+        {
+          "metric": "domains",
+          "value": 3,
+          "period": "per account"
+        }
+      ],
+      "source_url": "https://resend.com/pricing",
+      "checked_on": "2026-11-23",
+      "stale": false,
+      "account_needed": false,
+      "note": null,
+      "why": "Resend sends form messages free up to 100 a day."
+    }
+  },
+  "overlays": [
+    "claude-md-lean",
+    "status-md",
+    "env-example",
+    "gitignore-secrets",
+    "security-headers-cloudflare",
+    "contact-form-worker"
+  ],
+  "upgrade_triggers": [
+    "resend:emails_per_month>2400",
+    "resend:emails_per_day>80"
+  ],
+  "notes": []
+}

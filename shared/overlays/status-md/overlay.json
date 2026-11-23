@@ -1,0 +1,5 @@
+{
+  "id": "status-md",
+  "description": "STATUS.md so any session can see what is done, in progress and where it stopped.",
+  "files": [{ "src": "STATUS.md", "dest": "STATUS.md", "mode": "copy" }]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Daily report (7am)",
+  "nodes": [
+    {
+      "name": "Every day at 7am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0],
+      "parameters": { "rule": { "interval": [{ "field": "days", "triggerAtHour": 7 }] } }
+    },
+    {
+      "name": "Get yesterday's numbers",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [220, 0],
+      "parameters": { "method": "GET", "url": "https://YOUR-APP/api/report/daily" }
+    },
+    {
+      "name": "Write the summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 0],
+      "parameters": { "jsCode": "// Turn the numbers into a short plain-English message.\nconst d = items[0].json;\nreturn [{ json: { text: `Yesterday: ${JSON.stringify(d)}` } }];" }
+    },
+    {
+      "name": "Send to Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [660, 0],
+      "parameters": { "method": "POST", "url": "https://api.telegram.org/botYOUR_BOT_TOKEN_IN_N8N_CREDENTIALS/sendMessage", "sendBody": true, "specifyBody": "json", "jsonBody": "={{ JSON.stringify({ chat_id: 'YOUR_CHAT_ID', text: $json.text }) }}" }
+    }
+  ],
+  "connections": {
+    "Every day at 7am": { "main": [[{ "node": "Get yesterday's numbers", "type": "main", "index": 0 }]] },
+    "Get yesterday's numbers": { "main": [[{ "node": "Write the summary", "type": "main", "index": 0 }]] },
+    "Write the summary": { "main": [[{ "node": "Send to Telegram", "type": "main", "index": 0 }]] }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "n8n-skeletons",
+  "description": "Three n8n workflows to import: sheet sync, lead capture and a daily report. No credentials stored.",
+  "files": [
+    { "src": "n8n/sheet-sync.json", "dest": "n8n/sheet-sync.json", "mode": "copy" },
+    { "src": "n8n/lead-capture.json", "dest": "n8n/lead-capture.json", "mode": "copy" },
+    { "src": "n8n/daily-report.json", "dest": "n8n/daily-report.json", "mode": "copy" }
+  ]
+}
