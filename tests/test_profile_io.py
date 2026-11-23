@@ -99,3 +99,16 @@ def test_identifiers_are_not_secrets():
     assert looks_like_secret("ignore_whitespace_in_comparisons = True") is None
     assert looks_like_secret("/blog/ask-anything-about-your-documents-here") is None
     assert looks_like_secret("key = 'sk_live_" + "a" * 24 + "'") == "paystack"
+
+
+# v0.1.1 (deferred minor): unreadable profile paths give a clear ProfileError, not a crash.
+def test_directory_profile_is_profile_error(tmp_path):
+    with pytest.raises(ProfileError, match="cannot be read"):
+        load_profile(tmp_path)
+
+
+def test_non_utf8_profile_is_profile_error(tmp_path):
+    bad = tmp_path / "profile.md"
+    bad.write_bytes(b"---\naccounts: [neon]\n\xff\xfe---\n")
+    with pytest.raises(ProfileError, match="UTF-8"):
+        load_profile(bad)

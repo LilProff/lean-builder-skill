@@ -99,3 +99,35 @@ def test_hobby_warning_before_live_keys():
 
 def test_deploy_names_agent_host_role():
     assert "webhooks" in skill_text("deploy")
+
+
+# v0.1.1 dogfood fixes: instructions match the new tool options and what deploying really took.
+def test_kit_passes_skip_roles_and_new_values():
+    text = skill_text("kit")
+    assert "--skip-roles" in text
+    for key in ("SHARED_DIR", "HOST", "INSTALL_CMD", "BUILD_CMD"):
+        assert key in text
+
+
+def test_lean_claude_lists_new_values():
+    text = skill_text("lean-claude")
+    for key in ("SHARED_DIR", "HOST", "INSTALL_CMD", "BUILD_CMD"):
+        assert key in text
+
+
+@pytest.mark.parametrize("name", sorted(BUILD))
+def test_build_skills_rename_starter_package(name):
+    assert '"name"' in skill_text(name) and "package.json" in skill_text(name)
+
+
+def test_deploy_documents_wrangler_login_and_pages_force():
+    text = skill_text("deploy")
+    assert "wrangler login --device" in text and "pages:write" in text
+    assert "npx.cmd" in text
+    assert "--force" in text and "outside" in text
+
+
+def test_cost_guard_does_not_edit_plugin_catalogue():
+    text = skill_text("cost-guard")
+    assert "update `shared/free-tiers.json`" not in text
+    assert "never edit" in text.lower()

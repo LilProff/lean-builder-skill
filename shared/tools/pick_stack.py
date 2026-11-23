@@ -81,9 +81,34 @@ def _resolve_headers(overlays, host, tiers, notes):
     return out
 
 
+REQUIRED_ROLES = {"host", "app", "webhooks"}
+
+
+def load_overlay_roles(overlays_dir: Path) -> dict[str, list[str]]:
+    """Map overlay id to the stack roles it serves, from the optional "roles" field in overlay.json."""
+    roles = {}
+    for path in sorted(Path(overlays_dir).glob("*/overlay.json")):
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+        if manifest.get("roles"):
+            roles[manifest["id"]] = list(manifest["roles"])
+    return roles
+
+
+def _check_skip(row: dict, skip: set[str]) -> None:
+    unknown = sorted(skip - set(row["stack"]))
+    if unknown:
+        raise ValueError(f"Cannot skip {', '.join(unknown)}: not a role in stack {row['id']} "
+                         f"(roles: {', '.join(sorted(row['stack']))}).")
+    required = sorted(skip & REQUIRED_ROLES)
+    if required:
+        raise ValueError(f"Cannot skip {', '.join(required)}: every build of this type needs it.")
+
+
 def pick(build_type: str, context: str, commercial: bool, accounts: set[str] | None,
-         stacks: dict, tiers: dict, today: date) -> dict:
+         stacks: dict, tiers: dict, today: date, skip_roles=(), overlay_roles: dict | None = None) -> dict:
     row = _select_row(build_type, context, commercial, stacks)
+    skip = set(skip_roles or ())
+    _check_skip(row, skip)
     notes: list[str] = []
     if accounts is None:
         notes.append("No profile found: using default choices. Run the profile skill to personalise.")
@@ -91,6 +116,8 @@ def pick(build_type: str, context: str, commercial: bool, accounts: set[str] | N
 
     components = {}
     for role, provider in row["stack"].items():
+        if role in skip:
+            continue
         chosen = provider
         swap_note = None
         needed = False
@@ -115,6 +142,15 @@ def pick(build_type: str, context: str, commercial: bool, accounts: set[str] | N
 
     host = components.get("host", {}).get("provider")
     overlays = _resolve_headers(row["overlays"], host, tiers, notes)
+    triggers = list(row["upgrade_triggers"])
+    if skip:
+        roles_of = overlay_roles or {}
+        overlays = [o for o in overlays if not set(roles_of.get(o, [])) & skip]
+        kept = {p for r, p in row["stack"].items() if r not in skip} | {c["provider"] for c in components.values()}
+        dropped = {row["stack"][r] for r in skip} - kept
+        triggers = [t for t in triggers if t.split(":", 1)[0] not in dropped]
+        notes.append(f"Not in v1: {', '.join(sorted(skip))}. Their overlays and upgrade triggers are left out; "
+                     "run kit again without --skip-roles to add them.")
     return {
         "row_id": row["id"],
         "type": build_type,
@@ -123,7 +159,7 @@ def pick(build_type: str, context: str, commercial: bool, accounts: set[str] | N
         "accounts_owner": row["accounts_owner"],
         "components": components,
         "overlays": overlays,
-        "upgrade_triggers": list(row["upgrade_triggers"]),
+        "upgrade_triggers": triggers,
         "notes": notes,
     }
 
@@ -172,6 +208,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--data-dir", type=Path, default=DATA_DIR)
     parser.add_argument("--md", action="store_true")
     parser.add_argument("--out", type=Path)
+    parser.add_argument("--skip-roles", default="", help="Comma list of stack roles left out of v1, e.g. forms,email")
     args = parser.parse_args(argv)
 
     try:
@@ -179,8 +216,10 @@ def main(argv: list[str] | None = None) -> int:
         stacks = json.loads((args.data_dir / "stacks.json").read_text(encoding="utf-8"))
         tiers = json.loads((args.data_dir / "free-tiers.json").read_text(encoding="utf-8"))
         accounts = profile["accounts"] if profile else None
-        result = pick(args.type, args.context, args.commercial == "yes", accounts, stacks, tiers, date.today())
-    except (NoMatchError, AmbiguousMatchError, ProfileError) as err:
+        skip = {r.strip() for r in args.skip_roles.split(",") if r.strip()}
+        result = pick(args.type, args.context, args.commercial == "yes", accounts, stacks, tiers, date.today(),
+                      skip_roles=skip, overlay_roles=load_overlay_roles(args.data_dir / "overlays"))
+    except (NoMatchError, AmbiguousMatchError, ValueError) as err:
         print(str(err), file=sys.stderr)
         return 2
 

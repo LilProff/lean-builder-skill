@@ -32,7 +32,13 @@ def load_profile(path: Path) -> dict | None:
     path = Path(path)
     if not path.exists():
         return None
-    lines = path.read_text(encoding="utf-8").lstrip("﻿").splitlines()
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        raise ProfileError(f"{path}: is not UTF-8 text. Save it as UTF-8 and try again.") from None
+    except OSError as err:
+        raise ProfileError(f"{path}: cannot be read ({err.strerror or err}).") from None
+    lines = raw.lstrip("﻿").splitlines()
     if not lines or lines[0].strip() != "---":
         raise ProfileError(f"{path}: line 1 must be '---' (start of the profile settings).")
     data: dict = {}

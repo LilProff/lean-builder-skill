@@ -23,6 +23,6 @@ alter table audit_log enable row level security;
 -- Only admins may read the log. Uses org_members from db/rls_template.sql (overlay rls-policies).
 create policy audit_log_select on audit_log
   for select to authenticated
-  using (exists (select 1 from org_members m where m.user_id = auth.uid() and m.role = 'admin'));
+  using (exists (select 1 from org_members m where m.user_id = (select auth.uid()) and m.role = 'admin'));
 
 -- No update or delete policy on purpose: the log cannot be edited or removed by users.

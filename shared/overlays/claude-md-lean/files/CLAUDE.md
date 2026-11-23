@@ -8,10 +8,12 @@ Progress and the exact stop point are in `STATUS.md`. Read `STATUS.md` first, ev
 {{STACK_SUMMARY}}
 
 ## Commands
-- Install: see `plan.md` (official starter commands).
-- Build: run the project's build script before saying anything is done.
-- Before any push: `python <lean-builder>/shared/tools/secret_scan.py .`
-- Before any deploy: `python <lean-builder>/shared/tools/preflight.py --project . --host <host>`
+- Install: `{{INSTALL_CMD}}`
+- Build: `{{BUILD_CMD}}`, and it must pass before saying anything is done.
+- Before any push: `python "{{SHARED_DIR}}/tools/secret_scan.py" .`
+- Before any deploy: `python "{{SHARED_DIR}}/tools/preflight.py" --project . --host {{HOST}} --build-cmd "{{BUILD_CMD}}"`
+- The tool path is the lean-builder plugin's folder; after a plugin update, change the version in it.
+- If the starter wrote an `AGENTS.md`, read it for framework advice instead of repeating it here.
 
 ## Rules
 - No secrets in the repo. Env var NAMES go in `.env.example`; values go in the host's settings.

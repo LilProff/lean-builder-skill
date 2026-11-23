@@ -31,7 +31,7 @@ export async function verifyPaystackSignature(
   return sameText(expected, signature.toLowerCase());
 }
 
-export type VerifiedTransaction = { status: string; amountKobo: number; reference: string };
+export type VerifiedTransaction = { status: string; amountKobo: number; currency: string; reference: string };
 
 /** Ask Paystack for the real state of a payment. Never trust the webhook body alone. */
 export async function verifyTransaction(
@@ -43,7 +43,12 @@ export async function verifyTransaction(
     headers: { Authorization: `Bearer ${secretKey}` },
   });
   if (!res.ok) throw new Error(`Paystack verify failed with HTTP ${res.status}`);
-  const json = (await res.json()) as { status: boolean; data?: { status: string; amount: number; reference: string } };
+  const json = (await res.json()) as { status: boolean; data?: { status: string; amount: number; currency: string; reference: string } };
   if (!json.status || !json.data) throw new Error("Paystack verify returned no data");
-  return { status: json.data.status, amountKobo: json.data.amount, reference: json.data.reference };
+  return {
+    status: json.data.status,
+    amountKobo: json.data.amount,
+    currency: json.data.currency,
+    reference: json.data.reference,
+  };
 }

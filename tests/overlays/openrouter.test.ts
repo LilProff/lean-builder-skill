@@ -60,3 +60,20 @@ test("all fail throws with statuses", async () => {
     /all models failed: A 429, B 500/,
   );
 });
+
+// v0.1.1 (deferred minor): an empty answer is not cached and the next model is tried.
+test("empty answer moves to next model and is not cached", async () => {
+  const calls: string[] = [];
+  const cache = new Map<string, string>();
+  const fetchFn = (async (_url: string, init?: RequestInit) => {
+    const model = JSON.parse(String(init?.body)).model as string;
+    calls.push(model);
+    const content = model === "A" ? "" : "real answer";
+    return new Response(JSON.stringify({ choices: [{ message: { content } }] }), { status: 200 });
+  }) as typeof fetch;
+  const out = await complete(messages, { apiKey: "k", models: ["A", "B"], fetchFn, cache });
+  assert.equal(out.model, "B");
+  assert.equal(out.text, "real answer");
+  assert.deepEqual(calls, ["A", "B"]);
+  assert.equal([...cache.values()].some((v) => v.includes('"text":""')), false);
+});

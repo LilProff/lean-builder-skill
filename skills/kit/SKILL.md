@@ -29,6 +29,8 @@ For client work, the client owns every account from day one. Say that in the pla
 python <shared>/tools/pick_stack.py --type <type> --context <context> --commercial <yes|no> --md --out kit/stack.json
 ```
 
+If the owner does not need a role in v1 (for example no contact form on a one-page site), add `--skip-roles forms,email`. The picker then leaves out those parts, their overlays and their upgrade triggers. `host`, `app` and `webhooks` cannot be skipped.
+
 Show the table it prints. Read every note: a note may say an account is missing, a fallback was used, or limits need re-checking.
 
 ## 4. Write the plan files in the project root
@@ -57,7 +59,7 @@ Write a values file and apply the base overlays:
 python <shared>/tools/apply_overlays.py --ids claude-md-lean,status-md --project . --values kit/values.json
 ```
 
-`kit/values.json` needs `PROJECT_NAME`, `STACK_SUMMARY` (one line) and `CONTEXT`.
+`kit/values.json` needs `PROJECT_NAME`, `STACK_SUMMARY` (one line), `CONTEXT`, `SHARED_DIR` (the full path of `<shared>`, forward slashes), `HOST` (the `provider` of the `host` component, or of `webhooks` for agents), `INSTALL_CMD` (for example `npm install`) and `BUILD_CMD` (for example `npm run build`). The build skills add `ENV_VARS` later.
 
 ## 6. Stop and ask
 

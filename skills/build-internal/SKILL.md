@@ -14,8 +14,8 @@ Read `plan.md` and `kit/stack.json`, then `STATUS.md`. For client work, confirm 
 ## Steps (update STATUS.md after each one)
 
 1. **Starter.** `npx create-next-app@latest` with TypeScript and the `src/` folder.
-   If the folder is not empty (kit already wrote `plan.md`, `cost.md` and `kit/`), run the starter in a `_starter` subfolder instead, move its contents up without overwriting `plan.md`, `cost.md`, `kit/`, `CLAUDE.md` or `STATUS.md`, then delete `_starter`.
-2. **Overlays.** Write `kit/values.json`, then:
+   If the folder is not empty (kit already wrote `plan.md`, `cost.md` and `kit/`), run the starter in a `_starter` subfolder instead, move its contents up without overwriting `plan.md`, `cost.md`, `kit/`, `CLAUDE.md` or `STATUS.md`, then delete `_starter`. Then set `"name"` in `package.json` to the project name (the starter names it after the folder).
+2. **Overlays.** Add `ENV_VARS` (one `NAME=` per line) to the `kit/values.json` that kit wrote, then:
    `python <base>/../../shared/tools/apply_overlays.py --ids <overlays from kit/stack.json> --project . --values kit/values.json`
    This adds `rls-policies`, `audit-log-table`, and for heavy back ends `cloud-run-fastapi` and `n8n-skeletons`.
 3. **Roles first.** Write down the roles (for example admin, manager, staff) and what each may see and do. Turn that into `org_members` roles and policies from `db/rls_template.sql`.

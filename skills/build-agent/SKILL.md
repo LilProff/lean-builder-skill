@@ -14,8 +14,8 @@ Read `plan.md`, `kit/stack.json` and `STATUS.md`. Write down in `plan.md`: what 
 ## Steps (update STATUS.md after each one)
 
 1. **Starter.** `npm create cloudflare@latest` (Hello World Worker, TypeScript), then `npm install hono`.
-   If the folder is not empty (kit already wrote `plan.md`, `cost.md` and `kit/`), run the starter in a `_starter` subfolder instead, move its contents up without overwriting `plan.md`, `cost.md`, `kit/`, `CLAUDE.md` or `STATUS.md`, then delete `_starter`.
-2. **Overlays.** Write `kit/values.json` with `ENV_VARS`, then:
+   If the folder is not empty (kit already wrote `plan.md`, `cost.md` and `kit/`), run the starter in a `_starter` subfolder instead, move its contents up without overwriting `plan.md`, `cost.md`, `kit/`, `CLAUDE.md` or `STATUS.md`, then delete `_starter`. Then set `"name"` in `package.json` and `name` in `wrangler.jsonc` to the project name; otherwise the Worker is deployed as `_starter`.
+2. **Overlays.** Add `ENV_VARS` to the `kit/values.json` that kit wrote, then:
    `python <base>/../../shared/tools/apply_overlays.py --ids <overlays from kit/stack.json> --project . --values kit/values.json`
    The starter already wrote `src/index.ts`, so the worker overlay is skipped. Apply it alone a second time with `--force` to replace the Hello World file: `python <base>/../../shared/tools/apply_overlays.py --ids <whatsapp-webhook-worker or telegram-webhook-worker> --project . --values kit/values.json --force`. Never use `--force` on the other overlays.
    - Telegram rows get `telegram-webhook-worker`; WhatsApp rows get `whatsapp-webhook-worker`.

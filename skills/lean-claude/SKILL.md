@@ -15,6 +15,8 @@ Apply the two overlays from `<base>/../../shared/` ("Base directory for this ski
 python <base>/../../shared/tools/apply_overlays.py --ids claude-md-lean,status-md --project . --values kit/values.json
 ```
 
+`kit/values.json` needs `PROJECT_NAME`, `STACK_SUMMARY`, `CONTEXT`, `SHARED_DIR` (the full path of `<base>/../../shared`), `HOST` (where it deploys, for example `cloudflare-pages`), `INSTALL_CMD` and `BUILD_CMD`. If kit already ran, they are there.
+
 This adds `CLAUDE.md` (under 60 lines) and `STATUS.md`. Existing files are never overwritten.
 
 ## Keep CLAUDE.md under 60 lines

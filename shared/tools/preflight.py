@@ -28,7 +28,9 @@ def _build(project: Path, build_cmd: str | None) -> Check:
         return Check("build", "warn", "No build command given, so the build was not checked.")
     result = subprocess.run(build_cmd, shell=True, cwd=project, capture_output=True, text=True)
     if result.returncode != 0:
-        return Check("build", "fail", f"'{build_cmd}' exited with {result.returncode}.")
+        output = (result.stdout or "") + (result.stderr or "")
+        tail = " | ".join(line.strip() for line in output.strip().splitlines()[-5:] if line.strip())[-400:]
+        return Check("build", "fail", f"'{build_cmd}' exited with {result.returncode}. Last output: {tail or '(none)'}")
     return Check("build", "pass", f"'{build_cmd}' succeeded.")
 
 
@@ -55,7 +57,10 @@ def _gitignore(project: Path) -> Check:
 
 
 def _headers(project: Path, host: str) -> Check:
-    if host.startswith("cloudflare-") or host == "github-pages":
+    if host == "github-pages":
+        return Check("headers", "warn", "GitHub Pages ignores _headers and cannot set security headers. "
+                                        "Use Cloudflare Pages for a business site, or accept this for a personal one.")
+    if host.startswith("cloudflare-"):
         for rel in ("_headers", "public/_headers"):
             path = project / rel
             if path.exists() and "X-Content-Type-Options" in path.read_text(encoding="utf-8"):

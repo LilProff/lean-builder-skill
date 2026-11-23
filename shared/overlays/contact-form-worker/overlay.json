@@ -1,6 +1,7 @@
 {
   "id": "contact-form-worker",
   "description": "Contact form handler (Cloudflare Pages Function) that emails the owner through Resend, with validation and a honeypot.",
+  "roles": ["forms"],
   "files": [
     { "src": "src/lib/contact.ts", "dest": "src/lib/contact.ts", "mode": "copy" },
     { "src": "functions/contact.ts", "dest": "functions/contact.ts", "mode": "copy" }

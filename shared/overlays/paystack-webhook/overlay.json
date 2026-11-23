@@ -1,6 +1,7 @@
 {
   "id": "paystack-webhook",
   "description": "Paystack webhook route for Next.js with signature check and server-side verify call.",
+  "roles": ["payments"],
   "files": [
     { "src": "src/lib/paystack.ts", "dest": "src/lib/paystack.ts", "mode": "copy" },
     { "src": "src/app/api/paystack/webhook/route.ts", "dest": "src/app/api/paystack/webhook/route.ts", "mode": "copy" }

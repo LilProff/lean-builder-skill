@@ -55,3 +55,18 @@ def test_strict_exit_code(tmp_path):
     args = ["--plan-json", str(plan), "--usage", str(usage), "--data-dir", str(data)]
     assert main(args + ["--strict"]) == 1
     assert main(args) == 0
+
+
+# v0.1.1 (deferred minor): bad input exits 2 with a message instead of a traceback.
+def test_main_malformed_trigger_returns_2(tmp_path, capsys):
+    from freetier_check import main
+    plan = tmp_path / "stack.json"
+    plan.write_text('{"upgrade_triggers": ["not a trigger"]}', encoding="utf-8")
+    assert main(["--plan-json", str(plan)]) == 2
+    assert "Malformed trigger" in capsys.readouterr().err
+
+
+def test_main_missing_plan_returns_2(tmp_path, capsys):
+    from freetier_check import main
+    assert main(["--plan-json", str(tmp_path / "nope.json")]) == 2
+    assert "nope.json" in capsys.readouterr().err

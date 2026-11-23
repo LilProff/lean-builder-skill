@@ -32,10 +32,10 @@ test("verifyTransaction maps the response and sends the key", async () => {
   const fake = (async (url: string, init?: RequestInit) => {
     seenUrl = url;
     seenAuth = new Headers(init?.headers).get("Authorization") ?? "";
-    return new Response(JSON.stringify({ status: true, data: { status: "success", amount: 500000, reference: "r1" } }));
+    return new Response(JSON.stringify({ status: true, data: { status: "success", amount: 500000, currency: "NGN", reference: "r1" } }));
   }) as typeof fetch;
   const r = await verifyTransaction("r1", "k", fake);
-  assert.deepEqual(r, { status: "success", amountKobo: 500000, reference: "r1" });
+  assert.deepEqual(r, { status: "success", amountKobo: 500000, currency: "NGN", reference: "r1" });
   assert.equal(seenUrl, "https://api.paystack.co/transaction/verify/r1");
   assert.equal(seenAuth, "Bearer k");
 });

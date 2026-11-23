@@ -55,3 +55,11 @@ def test_requirements_minimum_versions_only():
     assert any(line.startswith("fastapi>=") for line in lines)
     assert any(line.startswith("uvicorn[standard]>=") for line in lines)
     assert not any("==" in line for line in lines)
+
+
+# v0.1.1 (deferred minor): Supabase's faster RLS form, (select auth.uid()), evaluated once per query.
+def test_policies_use_select_auth_uid():
+    for rel in ("rls-policies/files/db/rls_template.sql", "audit-log-table/files/db/audit_log.sql"):
+        sql = (SHARED / "overlays" / rel).read_text(encoding="utf-8")
+        assert "(select auth.uid())" in sql, rel
+        assert "= auth.uid()" not in sql, rel

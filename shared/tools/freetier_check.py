@@ -52,12 +52,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--strict", action="store_true")
     args = parser.parse_args(argv)
 
-    plan = json.loads(args.plan_json.read_text(encoding="utf-8"))
-    tiers = json.loads((args.data_dir / "free-tiers.json").read_text(encoding="utf-8"))
-    usage = json.loads(args.usage.read_text(encoding="utf-8")) if args.usage else {}
+    try:
+        plan = json.loads(args.plan_json.read_text(encoding="utf-8"))
+        tiers = json.loads((args.data_dir / "free-tiers.json").read_text(encoding="utf-8"))
+        usage = json.loads(args.usage.read_text(encoding="utf-8")) if args.usage else {}
 
-    stale = stale_entries(tiers, date.today())
-    fired = evaluate_triggers(plan.get("upgrade_triggers", []), usage)
+        stale = stale_entries(tiers, date.today())
+        fired = evaluate_triggers(plan.get("upgrade_triggers", []), usage)
+    except (OSError, ValueError) as err:
+        print(f"freetier_check: {err}", file=sys.stderr)
+        return 2
     print("Stale limit data (re-check the source page): " + (", ".join(stale) if stale else "none"))
     print("Upgrade triggers fired: " + (", ".join(fired) if fired else "none"))
     if not usage:

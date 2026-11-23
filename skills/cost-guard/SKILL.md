@@ -25,7 +25,7 @@ It lists free-tier data older than 90 days and every trigger that fired.
 
 ## 3. Explain each result in plain English
 
-- **Stale data:** open the provider's page (link in `kit/stack.json`), re-check the limit, and update `shared/free-tiers.json` with the new figure and today's date.
+- **Stale data:** open the provider's page (link in `kit/stack.json`), re-check the limit, and write the new figure, today's date and the link in `cost.md`. Never edit the plugin's own `shared/free-tiers.json` (it is replaced on every plugin update); suggest the change upstream instead.
 - **Fired trigger:** say what it means and the cheapest move. Examples:
   - `vercel-hobby:commercial_use`: the product now earns money, so move to Cloudflare Workers (re-run `kit` with `--commercial yes`).
   - `supabase:idle_pause`: a live client system must be on Supabase Pro, paid by the client.

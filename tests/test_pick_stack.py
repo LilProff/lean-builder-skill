@@ -139,3 +139,45 @@ def test_out_writes_json(tmp_path):
 def test_components_carry_why(real):
     r = pick("website", "personal", False, ALL, *real)
     assert "Cloudflare Pages" in r["components"]["host"]["why"]
+
+
+# v0.1.1 (dogfood item 4): a plan can leave roles out of v1.
+@pytest.fixture
+def overlay_roles():
+    return pick_stack.load_overlay_roles(SHARED / "overlays")
+
+
+def test_skip_roles_drops_components_overlays_and_triggers(real, overlay_roles):
+    r = pick("website", "personal", False, ALL, *real, skip_roles={"forms", "email"}, overlay_roles=overlay_roles)
+    assert set(r["components"]) == {"app", "host"}
+    assert "contact-form-worker" not in r["overlays"]
+    assert r["upgrade_triggers"] == []
+    assert any("Not in v1: email, forms" in n for n in r["notes"])
+
+
+def test_skip_keeps_triggers_of_providers_still_used(real, overlay_roles):
+    r = pick("agent", "personal", False, ALL, *real, skip_roles={"glue"}, overlay_roles=overlay_roles)
+    assert "glue" not in r["components"] and "n8n-skeletons" not in r["overlays"]
+    assert r["upgrade_triggers"] == ["cloudflare-workers:requests_per_day>80000", "openrouter:free_requests_per_day>40"]
+
+
+@pytest.mark.parametrize("role", ["host", "app", "webhooks"])
+def test_required_roles_cannot_be_skipped(real, overlay_roles, role):
+    btype = "agent" if role == "webhooks" else "website"
+    with pytest.raises(ValueError, match=role):
+        pick(btype, "personal", False, ALL, *real, skip_roles={role}, overlay_roles=overlay_roles)
+
+
+def test_unknown_skip_role_rejected(real, overlay_roles):
+    with pytest.raises(ValueError, match="payments"):
+        pick("website", "personal", False, ALL, *real, skip_roles={"payments"}, overlay_roles=overlay_roles)
+
+
+def test_main_skip_roles(tmp_path, capsys):
+    out = tmp_path / "kit" / "stack.json"
+    code = main(["--type", "website", "--context", "personal", "--commercial", "no", "--skip-roles", "forms,email",
+                 "--profile", str(tmp_path / "none.md"), "--out", str(out)])
+    assert code == 0
+    assert "forms" not in json.loads(out.read_text(encoding="utf-8"))["components"]
+    assert main(["--type", "website", "--context", "personal", "--commercial", "no", "--skip-roles", "host",
+                 "--profile", str(tmp_path / "none.md")]) == 2

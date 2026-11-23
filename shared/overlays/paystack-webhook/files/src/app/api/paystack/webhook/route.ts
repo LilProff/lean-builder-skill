@@ -17,6 +17,7 @@ export async function POST(request: Request): Promise<Response> {
   if (payment.status === "success") {
     // ORDER UPDATE GOES HERE. Make it idempotent: look up the order by payment.reference and
     // mark it paid only if it is not paid already. Paystack can send the same event more than once.
+    // Also check that payment.amountKobo and payment.currency match the order before marking it paid.
   }
   // Always answer 200 quickly, or Paystack will retry.
   return new Response("OK", { status: 200 });

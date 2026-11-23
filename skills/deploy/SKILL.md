@@ -22,7 +22,8 @@ Before any push to GitHub, also run `python <base>/../../shared/tools/secret_sca
 
 Write `deploy.md` with the exact steps for the chosen host:
 
-- **Cloudflare Pages (websites):** connect the GitHub repo in the dashboard, set the build command and output folder, add env vars under Settings. Or deploy with `npx wrangler pages deploy dist`.
+- **Cloudflare sign-in (once per computer, the owner approves):** `npx wrangler login --device --scopes account:read user:read pages:write` (add `workers_scripts:write` for Workers). The owner opens the link, enters the code and clicks Allow within 5 minutes. Plain `wrangler login` can time out when the localhost callback is blocked, and the full default scope list can be refused. On Windows PowerShell with scripts disabled, use `npx.cmd`.
+- **Cloudflare Pages (websites):** create the project once with `npx wrangler pages project create <name> --production-branch main --force`, run from a folder outside the app (inside it, Wrangler's auto-config may try to convert the app, for example `astro add cloudflare`). `--force` keeps classic Pages; newer Wrangler versions otherwise hand Pages projects to Workers. Then every deploy: build, then `npx wrangler pages deploy dist --project-name <name> --branch main`. Later, connect the GitHub repo in the dashboard so each push deploys.
 - **Cloudflare Workers (apps, bots):** `npx wrangler deploy`; secrets with `npx wrangler secret put NAME` (the owner types the value).
 - **Vercel:** import the repo; add env vars in Project Settings. Hobby only for builds that earn nothing.
 - **Render:** new Web Service from the repo; free services sleep after 15 minutes idle.

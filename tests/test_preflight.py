@@ -94,3 +94,17 @@ def test_next_config_headers_pass_on_workers(tmp_path):
     (tmp_path / "public" / "_headers").unlink()
     (tmp_path / "next.config.ts").write_text("export default { async headers() { return [] } }", encoding="utf-8")
     assert status(run_preflight(tmp_path, "cloudflare-workers", None, FRESH, TODAY), "headers") == "pass"
+
+
+# v0.1.1 (deferred minors)
+def test_github_pages_headers_warn(tmp_path):
+    clean_cloudflare(tmp_path)
+    check = [c for c in run_preflight(tmp_path, "github-pages", None, FRESH, TODAY) if c.name == "headers"][0]
+    assert check.status == "warn" and "ignores" in check.detail
+
+
+def test_failed_build_shows_output_tail(tmp_path):
+    clean_cloudflare(tmp_path)
+    cmd = 'python -c "import sys; print(\'boom\' + \'-detail\'); sys.exit(3)"'
+    check = [c for c in run_preflight(tmp_path, "cloudflare-pages", cmd, FRESH, TODAY) if c.name == "build"][0]
+    assert check.status == "fail" and "boom-detail" in check.detail

@@ -15,8 +15,8 @@ Read `plan.md` and `kit/stack.json`. If they are missing, run the `kit` skill. R
 
 1. **Starter.** `npx create-next-app@latest` with TypeScript, the App Router and the `src/` folder.
    If the host in `kit/stack.json` is Cloudflare Workers, follow Cloudflare's current Next.js guide (`npm create cloudflare@latest` offers it).
-   If the folder is not empty (kit already wrote `plan.md`, `cost.md` and `kit/`), run the starter in a `_starter` subfolder instead, move its contents up without overwriting `plan.md`, `cost.md`, `kit/`, `CLAUDE.md` or `STATUS.md`, then delete `_starter`.
-2. **Overlays.** Write `kit/values.json`, including `ENV_VARS` (one `NAME=` per line: database URL, auth secret, `PAYSTACK_SECRET_KEY`, `RESEND_API_KEY`), then:
+   If the folder is not empty (kit already wrote `plan.md`, `cost.md` and `kit/`), run the starter in a `_starter` subfolder instead, move its contents up without overwriting `plan.md`, `cost.md`, `kit/`, `CLAUDE.md` or `STATUS.md`, then delete `_starter`. Then set `"name"` in `package.json` (and `name` in `wrangler.jsonc`, if there is one) to the project name; the starter names them after the folder.
+2. **Overlays.** Add `ENV_VARS` to the `kit/values.json` that kit wrote (one `NAME=` per line: database URL, auth secret, `PAYSTACK_SECRET_KEY`, `RESEND_API_KEY`), then:
    `python <base>/../../shared/tools/apply_overlays.py --ids <overlays from kit/stack.json> --project . --values kit/values.json`
    This adds `paystack-webhook`, the security headers for the host, and `rls-policies` on Supabase rows.
 3. **Data and sign-in.** Follow `kit/stack.json`:

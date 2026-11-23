@@ -28,6 +28,10 @@ export async function complete(messages: ChatMessage[], opts: CompleteOptions): 
     if (res.ok) {
       const json = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
       const text = json.choices?.[0]?.message?.content ?? "";
+      if (!text.trim()) {
+        failures.push(`${model} empty`); // an empty answer is useless: never cache it, try the next model
+        continue;
+      }
       opts.cache?.set(key, JSON.stringify({ model, text }));
       return { model, text, fromCache: false };
     }

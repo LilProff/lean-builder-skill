@@ -74,6 +74,9 @@ Four build types (website, SaaS, internal tool, agent) times three contexts (per
 - **Internal tools:** Next.js and Supabase on the client's own account, FastAPI on Cloud Run for heavy jobs.
 - **Agents:** a Cloudflare Worker for webhooks, OpenRouter free models first, n8n for glue, D1 or Neon for memory.
 
+Not every build needs every part. `/kit` can leave roles out of v1 (for example `--skip-roles forms,email` for a
+one-page site with no contact form), and their add-on files and upgrade triggers go with them.
+
 Every limit lives in `shared/free-tiers.json` with its source page and the date it was checked (2026-11-23 for
 this release). `cost-guard` warns when a figure is more than 90 days old. Where a provider's page could not be
 read (Paystack fees), the kit says so and links the page instead of guessing.
